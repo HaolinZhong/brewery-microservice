@@ -1,10 +1,12 @@
 package hz.spring.brewry.web.service;
 
 import hz.spring.brewry.web.model.BeerDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class BeerServiceImpl implements BeerService {
 
@@ -27,5 +29,10 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public void update(UUID beerId, BeerDTO beerDTO) {
         // to impl in the future
+    }
+
+    @Override
+    public void deleteById(UUID beerId) {
+        log.debug("deleting a beer");
     }
 }
