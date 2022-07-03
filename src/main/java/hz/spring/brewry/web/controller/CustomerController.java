@@ -6,10 +6,17 @@ import hz.spring.brewry.service.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Validated
 @RequestMapping("/api/v1/customer")
 @RestController
 public class CustomerController {
@@ -21,13 +28,13 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable("customerId") UUID customerId) {
+    public ResponseEntity<CustomerDTO> getCustomer(@NotNull @PathVariable("customerId") UUID customerId) {
         return new ResponseEntity<>(customerService.getCustomerById(customerId), HttpStatus.OK);
 
     }
 
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity handlePost(@Valid @RequestBody CustomerDTO customerDTO) {
         CustomerDTO savedDTO = customerService.saveNewCustomer(customerDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customer/" + savedDTO.getId().toString());
@@ -37,7 +44,7 @@ public class CustomerController {
 
     @PutMapping("/{customerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void handleUpdate(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
+    public void handleUpdate(@PathVariable("customerId") UUID customerId, @Valid @RequestBody CustomerDTO customerDTO) {
         customerService.update(customerId, customerDTO);
     }
 
@@ -46,4 +53,5 @@ public class CustomerController {
     public void deleteCustomer(@PathVariable("customerId") UUID customerId) {
         customerService.deleteById(customerId);
     }
+
 }
