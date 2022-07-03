@@ -1,12 +1,13 @@
 package hz.spring.brewry.web.controller;
 
 import hz.spring.brewry.web.model.BeerDTO;
-import hz.spring.brewry.web.service.BeerService;
+import hz.spring.brewry.service.BeerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/beer")
@@ -26,7 +27,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody BeerDTO beerDTO) {
+    public ResponseEntity handlePost(@Valid @RequestBody BeerDTO beerDTO) {
         BeerDTO savedDTO = beerService.saveNewBeer(beerDTO);
 
         HttpHeaders headers = new HttpHeaders();
@@ -36,8 +37,8 @@ public class BeerController {
     }
 
     @PutMapping({"/{beerId}"})
-    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beerDTO) {
-        beerService.update(beerId, beerDTO);
+    public ResponseEntity handleUpdate(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDTO beerDTO) {
+        beerService.updateBeer(beerId, beerDTO);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

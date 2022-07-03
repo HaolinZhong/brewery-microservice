@@ -1,4 +1,4 @@
-package hz.spring.brewry.web.service;
+package hz.spring.brewry.service;
 
 
 import hz.spring.brewry.web.model.BeerDTO;
@@ -11,7 +11,7 @@ public interface BeerService {
 
     BeerDTO saveNewBeer(BeerDTO beerDTO);
 
-    void update(UUID beerId, BeerDTO beerDTO);
+    void updateBeer(UUID beerId, BeerDTO beerDTO);
 
     void deleteById(UUID beerId);
 }

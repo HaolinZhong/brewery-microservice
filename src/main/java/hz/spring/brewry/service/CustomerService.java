@@ -1,4 +1,4 @@
-package hz.spring.brewry.web.service;
+package hz.spring.brewry.service;
 
 import hz.spring.brewry.web.model.CustomerDTO;
 

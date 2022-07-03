@@ -1,4 +1,4 @@
-package hz.spring.brewry.web.service;
+package hz.spring.brewry.service;
 
 import hz.spring.brewry.web.model.BeerDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void update(UUID beerId, BeerDTO beerDTO) {
+    public void updateBeer(UUID beerId, BeerDTO beerDTO) {
         // to impl in the future
     }
 

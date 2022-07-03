@@ -2,7 +2,7 @@ package hz.spring.brewry.web.controller;
 
 
 import hz.spring.brewry.web.model.CustomerDTO;
-import hz.spring.brewry.web.service.CustomerService;
+import hz.spring.brewry.service.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
