@@ -5,11 +5,17 @@ import hz.spring.brewry.service.BeerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Validated
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
@@ -21,13 +27,13 @@ public class BeerController {
     }
 
     @GetMapping({"/{beerId}"})
-    public ResponseEntity<BeerDTO> getBeer(@PathVariable("beerId")UUID beerId) {
+    public ResponseEntity<BeerDTO> getBeer(@NotNull @PathVariable("beerId")UUID beerId) {
 
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity handlePost(@Valid @RequestBody BeerDTO beerDTO) {
+    public ResponseEntity handlePost(@NotNull @Valid @RequestBody BeerDTO beerDTO) {
         BeerDTO savedDTO = beerService.saveNewBeer(beerDTO);
 
         HttpHeaders headers = new HttpHeaders();
@@ -49,5 +55,14 @@ public class BeerController {
         beerService.deleteById(beerId);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException e) {
+        List<String> errors = new ArrayList<>(e.getConstraintViolations().size());
 
+        e.getConstraintViolations().forEach(constraintViolation ->  {
+            errors.add(constraintViolation.getPropertyPath() + ":" + constraintViolation.getMessage());
+        });
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 }
